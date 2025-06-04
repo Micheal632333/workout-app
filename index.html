@@ -3,39 +3,55 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="manifest" href="manifest.json">
+  <link rel="manifest" href="manifest.json" />
   <link rel="apple-touch-icon" href="images/icon-512.png" />
   <title>MF Software</title>
   <style>
+    :root {
+      --primary: #007bff;
+      --bg: #f9f9f9;
+      --text: #333;
+      --card: #fff;
+      --radius: 12px;
+    }
+    * {
+      box-sizing: border-box;
+    }
     body {
-      font-family: sans-serif;
+      font-family: 'Segoe UI', sans-serif;
       margin: 0;
-      padding: 0;
-      background-color: #f0f0f0;
+      background-color: var(--bg);
+      color: var(--text);
     }
     header {
-      background-color: #222;
+      background-color: var(--primary);
       color: white;
-      padding: 1rem;
-      font-size: 1.2rem;
-    }
-    header div {
-      text-align: left;
-      padding-left: 0.5rem;
+      padding: 1rem 1.5rem;
+      font-size: 1.5rem;
+      font-weight: bold;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
     .months {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
       padding: 1rem;
     }
     .months button {
+      background-color: var(--card);
+      border: 2px solid var(--primary);
+      border-radius: var(--radius);
       padding: 1rem;
       font-size: 1rem;
-      border: none;
-      background-color: #007bff;
+      font-weight: 500;
+      color: var(--primary);
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      transition: all 0.2s;
+    }
+    .months button:hover {
+      background-color: var(--primary);
       color: white;
-      border-radius: 8px;
     }
     .screen {
       display: none;
@@ -49,28 +65,35 @@
       width: 100%;
       max-height: 300px;
       object-fit: contain;
-      background-color: #ddd;
+      background-color: #e0e0e0;
+      border-radius: var(--radius);
     }
     textarea {
       margin-top: 1rem;
+      padding: 1rem;
       width: 100%;
       height: 150px;
       font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: var(--radius);
+      resize: vertical;
+      background-color: white;
     }
     .back-button {
       margin-top: 1rem;
       padding: 0.75rem;
-      background-color: #444;
+      background-color: var(--primary);
       color: white;
       border: none;
-      border-radius: 6px;
+      border-radius: var(--radius);
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
-  <header>
-    <div>MF Software</div>
-  </header>
+  <header>MF Software</header>
 
   <div class="months" id="monthMenu"></div>
 
@@ -123,7 +146,6 @@
       monthMenu.style.display = "grid";
     }
 
-    // Register service worker
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('sw.js')
         .then(() => console.log('Service Worker Registered'))
@@ -132,4 +154,5 @@
   </script>
 </body>
 </html>
+
 
