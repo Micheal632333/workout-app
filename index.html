@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="manifest" href="manifest.json">
+  <title>MF Software</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f0f0f0;
+    }
+    header {
+      background-color: #222;
+      color: white;
+      padding: 1rem;
+      font-size: 1.2rem;
+    }
+    header div {
+      text-align: left;
+      padding-left: 0.5rem;
+    }
+    .months {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      padding: 1rem;
+    }
+    .months button {
+      padding: 1rem;
+      font-size: 1rem;
+      border: none;
+      background-color: #007bff;
+      color: white;
+      border-radius: 8px;
+    }
+    .screen {
+      display: none;
+      flex-direction: column;
+      padding: 1rem;
+    }
+    .visible {
+      display: flex;
+    }
+    .workout-image {
+      width: 100%;
+      max-height: 300px;
+      object-fit: contain;
+      background-color: #ddd;
+    }
+    textarea {
+      margin-top: 1rem;
+      width: 100%;
+      height: 150px;
+      font-size: 1rem;
+    }
+    .back-button {
+      margin-top: 1rem;
+      padding: 0.75rem;
+      background-color: #444;
+      color: white;
+      border: none;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div>MF Software</div>
+  </header>
+
+  <div class="months" id="monthMenu"></div>
+
+  <div class="screen" id="monthScreen">
+    <img id="monthImage" class="workout-image" src="" alt="Workout" />
+    <textarea id="monthNotes"></textarea>
+    <button class="back-button" onclick="goBack()">Back</button>
+  </div>
+
+  <script>
+    const MONTHS = [
+      "January", "February", "March", "April", "May", "June",
+      "July", "August", "September", "October", "November", "December"
+    ];
+
+    const monthMenu = document.getElementById("monthMenu");
+    const monthScreen = document.getElementById("monthScreen");
+    const monthImage = document.getElementById("monthImage");
+    const monthNotes = document.getElementById("monthNotes");
+
+    let currentMonth = "";
+
+    MONTHS.forEach(month => {
+      const btn = document.createElement("button");
+      btn.innerText = month;
+      btn.onclick = () => openMonth(month);
+      monthMenu.appendChild(btn);
+    });
+
+    function openMonth(month) {
+      currentMonth = month;
+
+      const imagePath = `images/${month.toLowerCase()}.jpg`;
+      monthImage.src = imagePath;
+      monthImage.onerror = () => {
+        monthImage.src = "";
+        monthImage.alt = "Pic incoming...";
+      };
+
+      const savedNote = localStorage.getItem(`notes_${month}`);
+      monthNotes.value = savedNote || "";
+
+      monthMenu.style.display = "none";
+      monthScreen.classList.add("visible");
+    }
+
+    function goBack() {
+      localStorage.setItem(`notes_${currentMonth}`, monthNotes.value);
+      monthScreen.classList.remove("visible");
+      monthMenu.style.display = "grid";
+    }
+
+    // Register service worker
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js')
+        .then(() => console.log('Service Worker Registered'))
+        .catch(error => console.error('Service Worker Error:', error));
+    }
+  </script>
+</body>
+</html>
+
