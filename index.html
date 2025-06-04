@@ -22,6 +22,9 @@
       margin: 0;
       background-color: var(--bg);
       color: var(--text);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
     }
     header {
       background-color: var(--primary);
@@ -90,6 +93,12 @@
       font-weight: 500;
       cursor: pointer;
     }
+    footer {
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.9rem;
+      color: #888;
+    }
   </style>
 </head>
 <body>
@@ -102,6 +111,8 @@
     <textarea id="monthNotes"></textarea>
     <button class="back-button" onclick="goBack()">Back</button>
   </div>
+
+  <footer>Version 1.01</footer>
 
   <script>
     const MONTHS = [
